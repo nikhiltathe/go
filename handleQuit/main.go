@@ -49,6 +49,7 @@ func printNums(wg *sync.WaitGroup, ctx context.Context) {
 	defer wg.Done()
 	t10sec := time.Tick(1 * time.Second)
 	i := 1
+	
 	for {
 		select {
 		case _ = <-t10sec:

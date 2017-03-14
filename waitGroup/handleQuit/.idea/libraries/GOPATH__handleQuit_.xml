@@ -1,0 +1,26 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;handleQuit&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../slack" />
+      <root url="file://$PROJECT_DIR$/../project1" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../project2" />
+      <root url="file://$PROJECT_DIR$/../untitled" />
+      <root url="file://$PROJECT_DIR$/../slackIMnlopes" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../slack" />
+      <root url="file://$PROJECT_DIR$/../project1" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../project2" />
+      <root url="file://$PROJECT_DIR$/../untitled" />
+      <root url="file://$PROJECT_DIR$/../slackIMnlopes" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+    </SOURCES>
+    <excluded>
+      <root url="file://$PROJECT_DIR$" />
+    </excluded>
+  </library>
+</component>

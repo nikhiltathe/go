@@ -1,17 +1,13 @@
 package main
 
-// #cgo CFLAGS:  -IcCode/src/include
-// #cgo LDFLAGS: -Llib -lbinary
-// #include <header.h>
-import "C"
-import "fmt"
+import (
+	"github.com/go/cgo/cgoexample"
+	// "github.com/go/cgo/goCode/wrapper"
+)
 
 func main() {
-	var a C.int
-	a := 2
-	f := C.Square(a)
-	fmt.Println(f)
-	// Output: 4
+	// wrapper.Call()
+	cgoexample.Example()
 }
 
 // go build --ldflags '-extldflags "-static"'

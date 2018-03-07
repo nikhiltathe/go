@@ -12,3 +12,6 @@ int Square(int a) {
 // https://www.codeproject.com/Articles/84461/MinGW-Static-and-Dynamic-Libraries
 // gcc -c cCode/src/main.C -o lib/temp.o
 // ar rcs lib/libbinary.a lib/temp.o
+
+// gcc -c cCode/src/main.C -o wrapper/lib/temp.o
+// ar cru wrapper/lib/libbinary.a wrapper/lib/temp.o

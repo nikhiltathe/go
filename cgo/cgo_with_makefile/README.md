@@ -1,4 +1,4 @@
-# Build
+## Build
 $ make 
 rm -rf libs 
 rm -rf static_c_lib.exe 
@@ -9,6 +9,6 @@ ar: creating libs/libclibrary.a
 rm -rf libs/*.o 
 go build -o static_c_lib.exe 
 
-# Run
+## Run
 $ ./static_c_lib.exe 
 Square of  2  is : 4 

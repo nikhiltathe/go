@@ -1,25 +1,14 @@
-Usage:
-
+# Build
+$ make
+rm -rf libs
+rm -rf static_c_lib.exe
 mkdir libs
+gcc -c src/*.c -o libs/clibrary.o
+ar rs libs/libclibrary.a libs/clibrary.o
+ar: creating libs/libclibrary.a
+rm -rf libs/*.o
+go build -o static_c_lib.exe
 
-gcc -c src/clibrary.c -o libs/clibrary.o
-
-ar cru libs/libclibrary.a libs/clibrary.o
-
-
-#cgo LDFLAGS: -Llibs -lclibrary
---ldflags '-extldflags "-static"'
-
-go build --ldflags '-Llibs -lclibrary' --cflags '-Iheaders'
-go build --ldflags '-Llibs -lclibrary -extldflags "-static"' 
-go build --ldflags 'libs -lclibrary -extldflags "-static"' 
-
-go build -ldflags="-Llibs -lclibrary -extldflags -static"
-go build -ldflags="-Llibs clibrary -linkmode internal"
-Ref : https://github.com/lxn/walk
-
-./my_single_file_callback.exe
-
-Output :
-
-4
+# Run
+$ ./static_c_lib.exe
+Square of  2  is : 4

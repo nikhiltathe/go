@@ -1,7 +1,8 @@
 package main
 
 /*
-#cgo CFLAGS: -Iheaders
+#cgo CFLAGS: -I${SRCDIR}/headers
+#cgo LDFLAGS: ${SRCDIR}/libs/libclibrary.a
 #include "clibrary.h"
 */
 import "C"
@@ -11,6 +12,7 @@ import (
 )
 
 func main() {
-	val := C.Square(C.int(2))
-	fmt.Println(val)
+	num := 2
+	val := C.Square(C.int(num))
+	fmt.Println("Square of ", num, " is :", val)
 }

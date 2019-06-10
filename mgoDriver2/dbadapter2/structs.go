@@ -13,8 +13,6 @@ type session struct {
 type mgoDriver struct {
 	collection map[string]*mgo.Collection
 	session    *mgo.Session
-	// session
-	// collections
 }
 
 func (mgo mgoDriver) Do() {

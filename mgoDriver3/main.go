@@ -8,7 +8,7 @@ import (
 
 	// mgo "github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
-	db "github.com/go/mgoDriver2/dbadapter2"
+	db "github.com/go/mgoDriver3/dbadapter3"
 )
 
 type notification struct {
@@ -33,7 +33,9 @@ type notification struct {
 	PostTo           string   `json:"postTo,omitempty" bson:"-"`
 }
 type DbService struct {
-	DB db.DBMongo
+	// Session    *mgo.Session
+	// Collection *mgo.Collection
+	db db.DBMongo
 }
 
 // InitSession initializes session
@@ -43,9 +45,7 @@ func (notifyMgo *DbService) InitSession() (err error) {
 
 	indexes := []string{"id", "category"}
 	// log.Debug("Initilizig Db with indexes", indexes)
-	db := DbService{}
-	db.DB, err = db.Init("notifications", indexes)
-
+	notifyMgo.Session, notifyMgo.Collection, err = db.Init("notifications", indexes)
 	return err
 
 }

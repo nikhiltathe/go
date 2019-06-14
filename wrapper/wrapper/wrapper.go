@@ -1,28 +1,36 @@
 package wrapper
 
 import (
+	"fmt"
+
 	"github.com/go/wrapper/thirdParty"
 )
 
+var inst Wrap
+
 type B struct {
 	*thirdParty.A
+}
+
+type B1 struct {
+	*thirdParty.A1
 }
 
 // func (b *B) Say() {
 // 	fmt.Println("in B")
 // }
 
-type C struct {
-	Wrap Wrap
+func (b *B) Give(v int) Wrap2 {
+	fmt.Println("Giving by B")
+	return &B1{A1: (b.A.Give(v))}
 }
 
-func (b *C) Say() {
-	inst = &B{}
-	inst.Say()
+func (b *B1) SayA1() {
+	fmt.Println("B1 SayA1")
+	b.A1.SayA1()
 }
-
-var inst Wrap
 
 func GetWrapper() Wrap {
-	return &C{}
+	inst = &B{}
+	return inst
 }

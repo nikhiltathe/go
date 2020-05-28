@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-03.dtd">
+<coverage line-rate="0" branch-rate="0" version="" timestamp="1569655484062">
+	<sources>
+		<source>C:\go1.10.1.windows-amd64\go\src</source>
+		<source>C:\Nikhil\workspace\src</source>
+	</sources>
+	<packages>
+		<package name="github.com\go\Coverage\SVC1" line-rate="0" branch-rate="0" complexity="0">
+			<classes>
+				<class name="-" filename="github.com\go\Coverage\SVC1\svc.go" line-rate="0" branch-rate="0" complexity="0">
+					<methods>
+						<method name="WhoAMI" signature="" line-rate="0" branch-rate="0">
+							<lines>
+								<line number="3" hits="1"></line>
+								<line number="4" hits="1"></line>
+								<line number="5" hits="1"></line>
+							</lines>
+						</method>
+						<method name="Hello" signature="" line-rate="0" branch-rate="0">
+							<lines>
+								<line number="7" hits="0"></line>
+								<line number="8" hits="0"></line>
+								<line number="9" hits="0"></line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="3" hits="1"></line>
+						<line number="4" hits="1"></line>
+						<line number="5" hits="1"></line>
+						<line number="7" hits="0"></line>
+						<line number="8" hits="0"></line>
+						<line number="9" hits="0"></line>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="github.com\go\Coverage\SVC2" line-rate="0" branch-rate="0" complexity="0">
+			<classes>
+				<class name="-" filename="github.com\go\Coverage\SVC2\svc.go" line-rate="0" branch-rate="0" complexity="0">
+					<methods>
+						<method name="WhoAMI" signature="" line-rate="0" branch-rate="0">
+							<lines>
+								<line number="3" hits="1"></line>
+								<line number="4" hits="1"></line>
+								<line number="5" hits="1"></line>
+							</lines>
+						</method>
+						<method name="Hello" signature="" line-rate="0" branch-rate="0">
+							<lines>
+								<line number="7" hits="0"></line>
+								<line number="8" hits="0"></line>
+								<line number="9" hits="0"></line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="3" hits="1"></line>
+						<line number="4" hits="1"></line>
+						<line number="5" hits="1"></line>
+						<line number="7" hits="0"></line>
+						<line number="8" hits="0"></line>
+						<line number="9" hits="0"></line>
+					</lines>
+				</class>
+			</classes>
+		</package>
+		<package name="github.com\go\Coverage" line-rate="0" branch-rate="0" complexity="0">
+			<classes>
+				<class name="-" filename="github.com\go\Coverage\main.go" line-rate="0" branch-rate="0" complexity="0">
+					<methods>
+						<method name="main" signature="" line-rate="0" branch-rate="0">
+							<lines>
+								<line number="10" hits="0"></line>
+								<line number="11" hits="0"></line>
+								<line number="12" hits="0"></line>
+								<line number="13" hits="0"></line>
+								<line number="14" hits="0"></line>
+							</lines>
+						</method>
+					</methods>
+					<lines>
+						<line number="10" hits="0"></line>
+						<line number="11" hits="0"></line>
+						<line number="12" hits="0"></line>
+						<line number="13" hits="0"></line>
+						<line number="14" hits="0"></line>
+					</lines>
+				</class>
+			</classes>
+		</package>
+	</packages>
+</coverage>

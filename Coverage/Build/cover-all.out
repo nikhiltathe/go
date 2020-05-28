@@ -1,0 +1,6 @@
+mode: count
+github.com\go\Coverage\SVC1\svc.go:3.22,5.2 1 1
+github.com\go\Coverage\SVC1\svc.go:7.14,9.2 1 0
+github.com\go\Coverage\SVC2\svc.go:3.22,5.2 1 1
+github.com\go\Coverage\SVC2\svc.go:7.14,9.2 1 0
+github.com\go\Coverage\main.go:10.13,14.2 3 0

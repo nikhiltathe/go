@@ -1,0 +1,218 @@
+pipeline {
+    agent {
+        node {
+            label "ldpda212.hop.lab.emc.com || ldpda213.hop.lab.emc.com || ldpda214.hop.lab.emc.com || ldpda215.hop.lab.emc.com || ldpda216.hop.lab.emc.com || ldpda217.hop.lab.emc.com"
+            customWorkspace "/home/jenkins/${JOB_NAME}/builds/${BUILD_ID}/src/cr"
+        }
+    }
+
+    environment {
+        GOPATH = "/home/jenkins/${JOB_NAME}/builds/${BUILD_ID}"
+        PATH = "$PATH:${GOPATH}/bin:/etc/sonarqube/sonar-scanner-3.2.0.1227-linux/bin"
+        CRVER = "19.5.0.0"
+        INSTALL_CR = "/tmp/install_cr"
+    }
+
+    stages {
+        stage ('Merge to Develop') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo 'Performing Jenkins steps prior to merge to develop'
+                checkoutStage()
+                preBuildStage()
+                buildStage()
+                deployStage()
+                testStage()
+                cleanupTest()
+                copyBundle()
+            }
+        }
+        stage ('Pull Request') {
+            when {
+                expression { env.CHANGE_ID != null }
+            }
+            steps {
+                echo "Performing Jenkins steps for PR #${env.CHANGE_ID}"
+                checkoutStage()
+                preBuildStage()
+                buildPullRequestStage()
+                testPullRequestStage()
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'SUCCESS'
+        }
+        unstable {
+            echo 'UNSTABLE'
+        }
+        failure {
+            echo 'FAILURE'
+        }
+    }
+}
+
+def checkoutStage() {
+    stage('Checkout') {
+        echo 'checkout'
+        gitHubPRStatus githubPRMessage('${GITHUB_PR_COND_REF} run started')
+        sh 'printenv | sort'
+        sh "mkdir -p ${GOPATH}/src/cr"
+        sh "mkdir -p ${GOPATH}/bin"
+        checkout scm
+    }
+}
+
+def preBuildStage() {
+    stage('Pre Build') {
+        dir ("${GOPATH}/bin") {
+            echo 'Pulling Dependencies'
+            sh "export HOME=${GOPATH}"
+            sh "go version"
+            sh "go get -u github.com/golang/dep/cmd/dep"
+            sh "go get -u github.com/alecthomas/gometalinter"
+            sh "go get github.com/tebeka/go2xunit"
+            sh "go get github.com/t-yuki/gocover-cobertura"
+            sh "go get github.com/axw/gocov/..."
+            sh "go get github.com/AlekSi/gocov-xml"
+            sh "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
+            sh "go get golang.org/x/tools/go/packages"
+            //sh "go get github.com/golang/mock/gomock"
+            //sh "go install github.com/golang/mock/mockgen"
+            sh "gometalinter --install"
+        }
+        sh "export GOPATH=${GOPATH}"
+        sh "export PATH=$PATH:${GOPATH}/bin"
+    }
+}
+
+def buildStage() {
+    stage('Build') {
+        echo 'Building Project'
+        sh """make jenkins_bundle CRBUILDNUM=${BUILD_NUMBER}"""
+        sh """make crtest CRBUILDNUM=${BUILD_NUMBER}"""
+    }
+}
+
+def buildPullRequestStage() {
+    stage('Build Pull Request') {
+        echo 'Building Pull Request'
+        sh """make jenkins"""
+    }
+}
+
+def deployStage() {
+    stage('Deploy') {
+        echo 'Deploying Cyber Recovery Software'
+        sh "mkdir -p ${INSTALL_CR}"
+        sh "cp ${GOPATH}/cr-release-bundle-${CRVER}-${BUILD_NUMBER}.tar.gz ${INSTALL_CR}"
+        sh "tar -xzvf ${INSTALL_CR}/cr-release-bundle-${CRVER}-${BUILD_NUMBER}.tar.gz -C ${INSTALL_CR}"
+        sh "cp ${GOPATH}/src/cr/crdevsetup/crdevsetup.sh ${INSTALL_CR}/staging/crdevsetup.sh"
+        dir("${INSTALL_CR}/staging") {
+            sh "./crdevsetup.sh --install"
+        }
+    }
+}
+
+def testStage() {
+    stage ('Test') {
+        echo 'Running crtest against the build'
+        sh "cp ${GOPATH}/cr-crtest-${CRVER}-${BUILD_NUMBER}.tar.gz ${INSTALL_CR}"
+        sh "mkdir /opt/dellemc/cr/crtest"
+        sh "tar -xzvf ${INSTALL_CR}/cr-crtest-${CRVER}-${BUILD_NUMBER}.tar.gz -C /opt/dellemc/cr/crtest/"
+        dir("/opt/dellemc/cr/crtest") {
+            try {
+                sh "./crtest.sh -c /jenkins_sw/config-jenkins.txt -d"
+            } catch (Exception err) {
+                echo 'Failures encountered in crtest, view logs in /tmp for more information'
+                currentBuild.result = 'FAILURE'
+            }
+        }
+    }
+}
+
+def testPullRequestStage() {
+    stage ('Test Pull Request') {
+        echo 'Creating gometalinter report with checkstyle for aggregatingResults'
+        sh """gometalinter --disable-all --deadline=120s --vendor --tests --enable=golint --enable=gocyclo --enable=gosec --checkstyle $GOPATH/src/cr/dev/... > gometalinter.xml || ls -lh gometalinter.xml"""
+
+        publishHTML(target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '',
+                reportFiles: 'metalint-index.html',
+                reportName: 'MetaLint HTML Report'
+        ])
+
+        echo 'Testing Pull Request'
+        sh """gocov test ./... | gocov-xml > coverage.xml"""
+
+        cobertura(
+            coberturaReportFile: "**/coverage.xml",
+            onlyStable: false,
+            failNoReports: true,
+            failUnhealthy: true,
+            failUnstable: true,
+            autoUpdateHealth: false,
+            autoUpdateStability: false,
+            zoomCoverageChart: false,
+            maxNumberOfBuilds: 0,
+            lineCoverageTargets: '100, 40.67, 40.67',
+            methodCoverageTargets: '100, 0, 0',
+            classCoverageTargets: '100, 0, 0',
+            fileCoverageTargets: '100, 0, 0',
+            conditionalCoverageTargets: '100, 0, 0',
+            sourceEncoding: 'ASCII',
+        )
+
+        sh """go test ./... -json > test.xml"""
+        sh """go test ./... -coverprofile=coverage.out"""
+
+        recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: '**/gometalinter.xml')
+        echo 'Creating gometalinter report for SonarQube golang plugin'
+        sh """gometalinter --disable-all --deadline=120s --vendor --tests --enable=golint --enable=gocyclo --enable=gosec $GOPATH/src/cr/dev/... > ${GOPATH}/gometalinter.xml || ls -lh ${GOPATH}/gometalinter.xml"""
+        dir ("${GOPATH}/src/cr"){
+            sh """cp /scripts/sonar-project.properties  ${GOPATH}/src/cr"""
+            sh """sonar-scanner -X -Dsonar.go.gometalinter.reportPaths=${GOPATH}/gometalinter.xml"""
+        }
+    }
+}
+
+def cleanupTest() {
+    stage ('Cleanup') {
+        echo 'Cleaning up the Cyber Recovery configuration after test completion'
+        if (currentBuild.result == 'FAILURE') {
+            sh "mkdir -p /tmp/${env.JOB_NAME}/${env.BUILD_NUMBER}"
+            sh "cp -r /opt/dellemc/cr/var/log /tmp/${env.JOB_NAME}/${env.BUILD_NUMBER}"
+        }
+        dir("${INSTALL_CR}/staging") {
+            sh "./crdevsetup.sh --uninstall"
+        }
+        sh "rm -rf ${INSTALL_CR}"
+        emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+        to: 'joe.berthiaume@emc.com,sadagopan.balaraman@emc.com,Shihming.Chiang2@emc.com,James.Forkey@emc.com,Munira.Manasawala@emc.com,eddie.pavkovic@emc.com,Manikanta.Ps@emc.com,Sowjanya.Sake@emc.com,brian.spadafora@emc.com,Nikhil.Tathe@emc.com,Joe.Condlin@emc.com,robert.pellowski@emc.com',
+        subject: "Jenkins Build ${currentBuild.currentResult}: Build ${env.BUILD_NUMBER}"
+    }
+}
+
+def copyBundle() {
+    stage ('Copy Bundle') {
+        if (currentBuild.result == 'FAILURE') {
+            echo "FAILURE: Verification of new bundle failed, not copying to swlib"
+        } else {
+            echo "SUCCESS: Build and verification of new bundle was successful, copying to swlib"
+            if(!fileExists("/swlib")) {
+                sh "mkdir -p /swlib"
+            }
+            if(!fileExists("/swlib/CRS/builds")) {
+                sh "mount ldpda069.hop.lab.emc.com:/swlib /swlib"
+            }
+            sh "cp ${GOPATH}/cr-release-bundle-${CRVER}-${BUILD_NUMBER}.tar.gz /swlib/CRS/builds"
+        }
+    }
+}

@@ -1,0 +1,65 @@
+-------------------------------------------------------
+Run on DD
+-------------------------------------------------------
+nfs add /data/col1/cr-policy-5ec6ac4a94422f0001360be2-repo ldpda089
+nfs add /data/col1/cr-policy-5ec6ad3494422f0001316acc-repo ldpda089
+nfs add /data/col1/cr-policy-5ec6ae1794422f0001316acf-repo ldpda089
+nfs add /data/col1/cr-policy-5ec6aee494422f0001316ad2-repo ldpda089
+nfs add /data/col1/cr-policy-5eccfeb094422f0001e1c3af-repo ldpda089
+nfs add /data/col1/cr-policy-5ecd0bac94422f0001e1c3b5-repo ldpda089
+-------------------------------------------------------
+Run on CentOS
+-------------------------------------------------------
+cd /nikhil/DD
+mkdir CleanDD
+mount ldpda162.hop.lab.emc.com:/data/col1/cr-policy-5ec6ac4a94422f0001360be2-repo CleanDD
+ls -al CleanDD/*
+rm CleanDD/* -rf
+ls -al CleanDD/*
+umount CleanDD
+mount ldpda162.hop.lab.emc.com:/data/col1/cr-policy-5ec6ad3494422f0001316acc-repo CleanDD
+ls -al CleanDD/*
+rm CleanDD/* -rf
+ls -al CleanDD/*
+umount CleanDD
+mount ldpda162.hop.lab.emc.com:/data/col1/cr-policy-5ec6ae1794422f0001316acf-repo CleanDD
+ls -al CleanDD/*
+rm CleanDD/* -rf
+ls -al CleanDD/*
+umount CleanDD
+mount ldpda162.hop.lab.emc.com:/data/col1/cr-policy-5ec6aee494422f0001316ad2-repo CleanDD
+ls -al CleanDD/*
+rm CleanDD/* -rf
+ls -al CleanDD/*
+umount CleanDD
+mount ldpda162.hop.lab.emc.com:/data/col1/cr-policy-5eccfeb094422f0001e1c3af-repo CleanDD
+ls -al CleanDD/*
+rm CleanDD/* -rf
+ls -al CleanDD/*
+umount CleanDD
+mount ldpda162.hop.lab.emc.com:/data/col1/cr-policy-5ecd0bac94422f0001e1c3b5-repo CleanDD
+ls -al CleanDD/*
+rm CleanDD/* -rf
+ls -al CleanDD/*
+umount CleanDD
+-------------------------------------------------------
+Run on DD
+-------------------------------------------------------
+nfs del /data/col1/cr-policy-5ec6ac4a94422f0001360be2-repo
+nfs del /data/col1/cr-policy-5ec6ad3494422f0001316acc-repo
+nfs del /data/col1/cr-policy-5ec6ae1794422f0001316acf-repo
+nfs del /data/col1/cr-policy-5ec6aee494422f0001316ad2-repo
+nfs del /data/col1/cr-policy-5eccfeb094422f0001e1c3af-repo
+nfs del /data/col1/cr-policy-5ecd0bac94422f0001e1c3b5-repo
+mtree delete /data/col1/cr-policy-5ec6ac4a94422f0001360be2-repo
+yes
+mtree delete /data/col1/cr-policy-5ec6ad3494422f0001316acc-repo
+yes
+mtree delete /data/col1/cr-policy-5ec6ae1794422f0001316acf-repo
+yes
+mtree delete /data/col1/cr-policy-5ec6aee494422f0001316ad2-repo
+yes
+mtree delete /data/col1/cr-policy-5eccfeb094422f0001e1c3af-repo
+yes
+mtree delete /data/col1/cr-policy-5ecd0bac94422f0001e1c3b5-repo
+yes

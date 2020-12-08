@@ -7,11 +7,11 @@ import (
 	log "github.com/go/gorillaMux/logger"
 	"github.com/gorilla/mux"
 
-	"github.com/go/gorillaMux/DB"
+	"github.com/go/gorillaMux/user/DB"
 )
 
-// usersHandler retunrs producr name
-func usersHandler(w http.ResponseWriter, r *http.Request) {
+// UsersHandler retunrs producr name
+func UsersHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debug("Entering")
 	defer log.Debug("Exiting")
 

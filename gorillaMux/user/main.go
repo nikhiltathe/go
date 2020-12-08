@@ -5,6 +5,7 @@ import (
 	"os"
 
 	log "github.com/go/gorillaMux/logger"
+	"github.com/go/gorillaMux/user/handler"
 	"github.com/gorilla/mux"
 )
 
@@ -17,8 +18,8 @@ func main() {
 	log.Init("logname", log.LEVEL_DEBUG, false)
 	r := mux.NewRouter()
 
-	r.HandleFunc("/users/{id}", handler.usersHandler)
-	r.HandleFunc("/", handler.usersHandler)
+	r.HandleFunc("/users/{id}", handler.UsersHandler)
+	r.HandleFunc("/", handler.UsersHandler)
 	log.Info("Starting server on port 9001")
 	err := http.ListenAndServe("localhost:9001", r)
 	if err != nil {

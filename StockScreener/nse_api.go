@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	url := "https://www.nseindia.com/api/historical/cm/equity?symbol=POWERGRID&series=%5B%2522EQ%2522%5D&from=24-06-2021&to=24-09-2021"
+	url := "https://www.nseindia.com/api/historical/cm/equity?symbol=POWERGRID&series=%5B%2522EQ%2522%5D&from=04-06-2021&to=24-09-2021"
 	method := "GET"
 
 	client := &http.Client{}
@@ -19,7 +19,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	req.Header.Add("Cookie", "ak_bmsc=8C2E91C3C09B1641ABB47824D58CADBF~000000000000000000000000000000~YAAQQEs5F9MDU4R7AQAA4GupFw0cOb6EbG7e+rbhQdiUhv78+8Uv9nW8nB9CUyk9S3NhB3meVKfWWn9pPjMxr7wxgxwoTiNpA3/6UVL1ytwUK1vkVvoISgdJ2mTgDPBoxtbrAeBFQSzysMUVzGv3Z1rEBncixjKPuXjGbxSYkiVlMEa+R/g+3APGDdJeOOAWneBLygzhiqBxUOHFBpkd5fF0FnyESMFapllSC56OP/MUfY0rXZw+O9wQjakeKTIfkj05KM2LIDhG9ye+8GEzWl0C03Xj9O26LGCmJ3a6mdGjCG5Quaoo5uI+s+Dqlpbx4hVU5JTPCS76QOlIFCg+KoPutMNWh5LwOnNrbmOCPUdP075o1XS/U9MKkj5eNvE=; bm_sv=9D8025D1B0649F86C7588B74D3CD1320~5gy4HjKrU1H9AhndN0k3lf6GvNe65QEoqOg/BM70fUGKkl8Tz7gvHGskrBm8anEK6NMYIVJ7aoJoROlHlJm8lPlQN0Skxqc2bvIQ+j3K0W2FtN+VOK3TtRHsDw/9Qua+PxkrBbyp9MZPEp819fL0R34OiKLjNxMG85RCBOwEIGE=")
+	req.Header.Add("sec-ch-ua", "\"Google Chrome\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\"")
+	req.Header.Add("sec-ch-ua-mobile", "?0")
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36")
+	req.Header.Add("sec-ch-ua-platform", "\"Windows\"")
+	req.Header.Add("Accept", "*/*")
+	req.Header.Add("Cookie", "ak_bmsc=AEC5ABF3DE00C12EF4D92FC759C133EA~000000000000000000000000000000~YAAQLI57XFcLWQV8AQAAAtN7GA3Eb0+y0XFb+d2N+zang/HAGcHs2b6U1yczglUjdKp+xyutumwW8Xo3Hy76BZ4aHp3+oOoyYTRlA3ydBErRuhaxM9hSSLKxDnrpMNRoNgKd7uDxYxDqlqq+zgNpVgjssV1TnpDL6rJEg8yrS2uuaEs9CdeJTxQzi1HOKUxNZHMR6gKYKTcHR4Sn8rR0tiz/2ttc52vh0LOCEEnCtGCPmDdYbFQrCDAERiMUgtoi+BRgxmS11lAU/Xi/D1yX1898iXbMb9GiAi6zZLkp5AOgcwXh0r35O/Nq3cgLbhcIrNyBGll8l8/3Fgpk3XLlHY/IUqLcAFpIsWOqQAFwmI1fC6VnsrdEby2qRqjA38s=; bm_sv=CCB8D93C142911ACFC6B9A925BA89070~mhFtoPBr9O69VSC0im7RfBFRsVL131joyS6pJvYUbHVihcpX1XiX5N9dW8S8wONg+0otq9RRmUTurocisGsS48npaJnGEjQ/n4TeLXB/Ee/MenRF2Npzezs6GVFW8tpCFDczIqAWR2lQDvtdeoVTFAiIADWYWiEViQ0MNzD/JdM=; nseQuoteSymbols=[{\"symbol\":\"POWERGRID\",\"identifier\":null,\"type\":\"equity\"}]; nseappid=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcGkubnNlIiwiYXVkIjoiYXBpLm5zZSIsImlhdCI6MTYzMjQ5NzYzMSwiZXhwIjoxNjMyNTAxMjMxfQ.EfnUSvbgziM3ewugfmGhMX6gpJP9DX7K8MGbUzQOrA4; nsit=8ece9mPSA-Z2AnZMtrdnehJK")
 
 	res, err := client.Do(req)
 	if err != nil {

@@ -68,7 +68,7 @@ func mod(a, b int) int {
 	return val
 }
 
-func main() {
+func main_4() {
 	/*
 	   // Arr, N, X
 	    { in: [[1, 2, 3, 4, 5], 4, 3], out: [1, 2, 3, 4] },

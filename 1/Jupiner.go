@@ -1,71 +1,73 @@
 package main
 
-import "fmt"
+// // Juniper
 
-// True/ false
-// number of courses : 3
-// 2D arry [1,2] [2,3] > true
-// 2D arry [1,2] [2,3] [3,1] > false
+// import "fmt"
 
-func main_3() {
+// // True/ false
+// // number of courses : 3
+// // 2D arry [1,2] [2,3] > true
+// // 2D arry [1,2] [2,3] [3,1] > false
 
-	num := 3
-	courseDeps := [][]int{[]int{1, 2}, []int{2, 3}}
-	fmt.Println(num)
-	fmt.Println(courseDeps)
-	result := DetectCycle(num, courseDeps)
-	fmt.Println("Possibility of course completion", !result)
-}
+// func main_3() {
 
-type Elements struct {
-	Curr       int
-	LastCourse int
-}
+// 	num := 3
+// 	courseDeps := [][]int{[]int{1, 2}, []int{2, 3}}
+// 	fmt.Println(num)
+// 	fmt.Println(courseDeps)
+// 	result := DetectCycle(num, courseDeps)
+// 	fmt.Println("Possibility of course completion", !result)
+// }
 
-func DetectCycle(num int, courses [][]int) bool {
+// type Elements struct {
+// 	Curr       int
+// 	LastCourse int
+// }
 
-	queue := make([]Elements, 0)
+// func DetectCycle(num int, courses [][]int) bool {
 
-	visited := make([]bool, num)
+// 	queue := make([]Elements, 0)
 
-	for i := 1; i <= num; i++ {
-		fmt.Println("visited :", visited)
+// 	visited := make([]bool, num)
 
-		if !visited[i] {
-			queue = append(queue, Elements{i, 0})
-			fmt.Println("queue :", queue)
+// 	for i := 1; i <= num; i++ {
+// 		fmt.Println("visited :", visited)
 
-			for len(queue) > 0 {
-				var curr Elements
-				curr, queue = queue[0], queue[1:]
-				// queue = queue[0 : len(queue)-1]
-				fmt.Println("queue after pop :", queue)
-				visited[curr.Curr-1] = true
+// 		if !visited[i] {
+// 			queue = append(queue, Elements{i, 0})
+// 			fmt.Println("queue :", queue)
 
-				cycle := CheckCycleDFS(curr, courses[curr.Curr][0], courses, visited)
-				if cycle {
-					return true
-				}
+// 			for len(queue) > 0 {
+// 				var curr Elements
+// 				curr, queue = queue[0], queue[1:]
+// 				// queue = queue[0 : len(queue)-1]
+// 				fmt.Println("queue after pop :", queue)
+// 				visited[curr.Curr-1] = true
 
-				queue = append(queue, Elements{courses[curr.Curr][0], i})
-				fmt.Println("queue appended :", queue)
+// 				cycle := CheckCycleDFS(curr, courses[curr.Curr][0], courses, visited)
+// 				if cycle {
+// 					return true
+// 				}
 
-			}
-		}
-	}
-	// O(N : M)
+// 				queue = append(queue, Elements{courses[curr.Curr][0], i})
+// 				fmt.Println("queue appended :", queue)
 
-	return false
-}
+// 			}
+// 		}
+// 	}
+// 	// O(N : M)
 
-func CheckCycleDFS(currCourse Elements, num int, courses [][]int, visited []bool) bool {
-	fmt.Println("visited in CheckCycleDFS :", visited)
+// 	return false
+// }
 
-	next := courses[currCourse.Curr][0]
-	fmt.Println("next", next)
+// func CheckCycleDFS(currCourse Elements, num int, courses [][]int, visited []bool) bool {
+// 	fmt.Println("visited in CheckCycleDFS :", visited)
 
-	if visited[next-1] == true && currCourse.LastCourse != num {
-		return true
-	}
-	return false
-}
+// 	next := courses[currCourse.Curr][0]
+// 	fmt.Println("next", next)
+
+// 	if visited[next-1] == true && currCourse.LastCourse != num {
+// 		return true
+// 	}
+// 	return false
+// }

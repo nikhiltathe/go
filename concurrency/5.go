@@ -1,4 +1,4 @@
-//Generator pattern
+// Generator pattern
 package main
 
 import (

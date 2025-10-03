@@ -1,4 +1,4 @@
-//Pattern - Fan in / multiplexer
+// Pattern - Fan in / multiplexer
 package main
 
 import (

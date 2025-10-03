@@ -1,4 +1,4 @@
-//Daisy chain
+// Daisy chain
 package main
 
 import (

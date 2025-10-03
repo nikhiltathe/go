@@ -1,4 +1,4 @@
-//Timeout using Select
+// Timeout using Select
 package main
 
 import (

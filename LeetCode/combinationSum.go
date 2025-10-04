@@ -4,7 +4,6 @@ package main
 import "fmt"
 
 func main() {
-
 	input := []int{2, 3, 6, 7}
 	ans := combinationSum(input, 7)
 	fmt.Println(ans)

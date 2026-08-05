@@ -46,7 +46,7 @@ func main() {
 
 	// Create a few readers and writers
 	numReaders := 50
-	numWriters := 2
+	numWriters := 3
 
 	// Launch reader goroutines
 	for i := 0; i < numReaders; i++ {
